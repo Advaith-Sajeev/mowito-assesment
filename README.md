@@ -107,20 +107,32 @@ raw_data/
 Run the dataset preparation script:
 
 ```bash
+# Basic usage (uses defaults)
 python src/utils/create_dataset.py
+
+# Custom source and output directories
+python src/utils/create_dataset.py \
+    --source /path/to/raw_data \
+    --output data
+
+# Custom validation ratio (20% instead of default 10%)
+python src/utils/create_dataset.py \
+    --source raw_data \
+    --output data \
+    --val-ratio 0.20
 ```
+
+**Available Options:**
+- `--source`: Source directory containing `good/`, `bad/`, and `masks/` folders (default: `anomaly_detection_test_data_synt`)
+- `--output`: Output directory for processed dataset (default: `data_synth`)
+- `--val-ratio`: Validation split ratio, e.g., 0.10 for 10% (default: `0.10`)
 
 **What it does:**
 - Balances good/bad classes
-- Creates 90/10 train/val split
+- Creates 90/10 train/val split (or custom ratio with `--val-ratio`)
 - Generates zero masks for good images
 - Copies masks for bad images
-- Outputs to `data/` directory in required structure
-
-**Configuration:** Edit `create_dataset.py` lines 10-13 to change:
-- Source data location (default: `anomaly_detection_test_data_synt`)
-- Output location (default: `data_synth`)
-- Validation ratio (default: 0.10)
+- Outputs to specified directory in required structure
 
 ---
 
