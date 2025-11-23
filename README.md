@@ -241,7 +241,6 @@ python src/classification/validate_resnet50.py \
 | **UNeXt Multi-task** | **1.000** | 0.971 | 0.985 | 5.6 MB | ✅ In repo |
 | **EfficientNetB0** | **1.000** | **0.990** | **0.995** | 16 MB | ✅ In repo |
 | ResNet50 | 0.953 | **1.000** | 0.976 | 90 MB | ✅ In repo |
-| UNeXt + GradCAM | ~1.000 | 0.971 | 0.985 | 5.6 MB | 📁 Google Drive |
 
 **All metrics:** Validation set (10% of data, balanced classes)
 
