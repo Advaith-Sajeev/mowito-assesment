@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Validation Report - scratch_UNext_multitask_subset_2</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        table { border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #aaa; padding: 6px 10px; }
+        th { background-color: #eee; }
+        .metric-table { margin-bottom: 20px; }
+        img { max-width: 500px; border: 1px solid #ccc; }
+        .small { color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Validation Report – scratch_UNext_multitask_subset_2</h1>
+
+    <h2>Segmentation Metrics</h2>
+    <table class="metric-table">
+        <tr><th>Average IoU</th><td>0.8106</td></tr>
+        <tr><th>Average Dice</th><td>0.8774</td></tr>
+    </table>
+
+    <h2>Classification Metrics (bad = positive class)</h2>
+    <table class="metric-table">
+        <tr><th>Precision (bad)</th><td>1.0000</td></tr>
+        <tr><th>Recall (bad)</th><td>0.9706</td></tr>
+        <tr><th>F1 (bad)</th><td>0.9851</td></tr>
+        <tr><th>Accuracy</th><td>0.9853</td></tr>
+        <tr><th>TP</th><td>99</td></tr>
+        <tr><th>FP</th><td>0</td></tr>
+        <tr><th>FN</th><td>3</td></tr>
+        <tr><th>TN</th><td>102</td></tr>
+        <tr><th>Total Samples</th><td>204</td></tr>
+    </table>
+
+    <h2>Confusion Matrix</h2>
+    <p class="small">Rows: True class (Good, Bad) – Columns: Predicted class (Good, Bad)</p>
+    <img src="confusion_matrix_val.png" alt="Confusion Matrix">
+
+    <h2>Panels</h2>
+    <p class="small">
+        Panels (original + GT & predicted overlays) are saved in:<br>
+        <code>outputs/scratch_UNext_multitask_subset_2/val_panels</code>
+    </p>
+</body>
+</html>
