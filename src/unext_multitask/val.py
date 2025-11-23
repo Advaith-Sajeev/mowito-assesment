@@ -42,6 +42,17 @@ def parse_args():
         default='outputs',
         help='root folder to save panels'
     )
+    parser.add_argument(
+        '--scratch_size_threshold',
+        type=float,
+        default=0.0,
+        help=(
+            'Minimum fraction of image area that must be scratched to '
+            'classify as bad (applies to predicted segmentation mask). '
+            'If 0.0, classification is NOT overridden by scratch size. '
+            'Example: 0.01 means at least 1%% of image must be scratched.'
+        )
+    )
     return parser.parse_args()
 
 
@@ -196,13 +207,29 @@ def main():
             # classification prediction
             cls_prob = torch.sigmoid(cls_logit).view(-1)[0].item()
             pred_label = int(cls_prob >= cls_threshold)
+            
+            # ---- Predicted mask from seg_logits ----
+            seg_prob = torch.sigmoid(seg_logits)[0, 0].detach().cpu().numpy()  # (H,W)
+            pred_mask_bin = (seg_prob >= 0.5).astype(np.uint8)
+            
+            # Calculate scratch size (fraction of image)
+            scratch_fraction = float(pred_mask_bin.mean())
+            
+            # Optional: override classification based on scratch size
+            size_filtered_pred = pred_label
+            if args.scratch_size_threshold > 0.0:
+                if scratch_fraction < args.scratch_size_threshold:
+                    size_filtered_pred = 0  # Override to "good" if scratch is too small
+            
+            # Use size_filtered_pred for confusion matrix
+            pred_label_final = size_filtered_pred
 
             # confusion matrix
-            if pred_label == 1 and gt_label == 1:
+            if pred_label_final == 1 and gt_label == 1:
                 TP += 1
-            elif pred_label == 1 and gt_label == 0:
+            elif pred_label_final == 1 and gt_label == 0:
                 FP += 1
-            elif pred_label == 0 and gt_label == 1:
+            elif pred_label_final == 0 and gt_label == 1:
                 FN += 1
             else:
                 TN += 1
@@ -212,9 +239,8 @@ def main():
             gt_mask = targets[0, 0].detach().cpu().numpy()  # (H,W)
             gt_mask_bin = (gt_mask >= 0.5).astype(np.uint8)
 
-            # Predicted mask from seg_logits
-            seg_prob = torch.sigmoid(seg_logits)[0, 0].detach().cpu().numpy()  # (H,W)
-            pred_mask_bin = (seg_prob >= 0.5).astype(np.uint8)
+            # Predicted mask (already computed above)
+            # pred_mask_bin is already available
 
             # ---- IoU & Dice per image ----
             iou_val, dice_val = compute_iou_dice(pred_mask_bin, gt_mask_bin)
@@ -254,8 +280,8 @@ def main():
             # ---- add bottom text with metrics ----
             text = (
                 f"IoU={iou_val:.3f}  Dice={dice_val:.3f}  "
-                f"gt_label={gt_label}  pred_label={pred_label}  "
-                f"prob_bad={cls_prob:.3f}"
+                f"gt_label={gt_label}  pred_label={pred_label_final}  "
+                f"prob_bad={cls_prob:.3f}  scratch_area={scratch_fraction:.3f}"
             )
             H, W, _ = panel.shape
             bar_h = 26
@@ -290,9 +316,9 @@ def main():
             # ---- print per-image metrics ----
             print(
                 f"{img_id}: IoU={iou_val:.4f}, Dice={dice_val:.4f}, "
-                f"gt_label={gt_label}, pred_label={pred_label}, prob_bad={cls_prob:.3f}"
+                f"gt_label={gt_label}, pred_label={pred_label_final}, prob_bad={cls_prob:.3f}, "
+                f"scratch_area={scratch_fraction:.3f}"
             )
-
     # ---- final aggregate metrics ----
     print("============== SUMMARY METRICS ==============")
     print("Segmentation IoU (avg over all val images):  %.4f" % iou_meter.avg)
