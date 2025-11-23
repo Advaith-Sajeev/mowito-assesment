@@ -56,8 +56,9 @@ See [Dataset Setup](#-dataset-setup) section below.
 
 **Option 1: UNeXt Multi-task (Classification + Segmentation) ⭐**
 ```bash
-cd src/unext_multitask
-python val.py --name scratch_UNext_multitask_subset_2
+python src/unext_multitask/val.py \
+    --model_path models/unext_multitask/scratch_UNext_multitask_subset_2.pth \
+    --data_root data
 ```
 
 **Option 2: EfficientNetB0 (Classification Only) ⭐**
@@ -142,9 +143,15 @@ python src/utils/create_dataset.py \
 
 **Validation Script:**
 ```bash
-cd src/unext_multitask
-python val.py --name scratch_UNext_multitask_subset_2
+python src/unext_multitask/val.py \
+    --model_path models/unext_multitask/scratch_UNext_multitask_subset_2.pth \
+    --data_root data
 ```
+
+**Options:**
+- `--model_path`: Direct path to model `.pth` file (required)
+- `--data_root`: Path to data directory containing `train/` and `val/` (default: `../../data`)
+- `--output_root`: Where to save validation outputs (default: `outputs`)
 
 **Outputs:**
 - Classification predictions (good/bad)
