@@ -7,11 +7,21 @@ Deep learning models for detecting and segmenting scratches on text images.
 
 ---
 
-## 🏆 Best Model: EfficientNetB0
+## 🏆 Best Models
 
-**Performance:** Precision: 1.000 | Recall: 0.990 | F1: 0.995 ⭐
+### 1. Best Classification + Segmentation: UNeXt Multi-task ⭐
 
-The best overall model for production use. Perfect precision (no false alarms) with excellent recall.
+**Performance:** Precision: 1.000 | Recall: 0.971 | F1: 0.985  
+**Bonus:** Provides segmentation masks for scratch localization
+
+Perfect precision with excellent recall. Jointly trained for classification and segmentation, providing interpretable results with precise scratch masks.
+
+### 2. Best Classification Only: EfficientNetB0 ⭐
+
+**Performance:** Precision: 1.000 | Recall: 0.990 | F1: 0.995  
+**Advantage:** Lightweight (16 MB), fastest inference
+
+Perfect precision (no false alarms) with near-perfect recall. Ideal for production deployment when segmentation is not required.
 
 ---
 
@@ -44,8 +54,16 @@ See [Dataset Setup](#-dataset-setup) section below.
 
 ### 3. Run Validation
 
+**Option 1: UNeXt Multi-task (Classification + Segmentation) ⭐**
 ```bash
-# Validate EfficientNetB0 (Best Model)
+python src/unext_multitask/inference.py \
+    --model_path models/unext_multitask/scratch_UNext_multitask_subset_2.pth \
+    --input_dir data/val \
+    --output_dir outputs/unext_multitask
+```
+
+**Option 2: EfficientNetB0 (Classification Only) ⭐**
+```bash
 python src/classification/validate_efficientnet.py \
     --model_path models/classification/efficientnet_b0.pth \
     --data_root data
@@ -108,42 +126,7 @@ python src/utils/create_dataset.py
 
 ## ✅ Model Validation
 
-### 1. EfficientNetB0 (Best Overall) ⭐
-
-**Location:** `models/classification/efficientnet_b0.pth` (16 MB - in repo)
-
-**Validation Script:**
-```bash
-python src/classification/validate_efficientnet.py \
-    --model_path models/classification/efficientnet_b0.pth \
-    --data_root data
-```
-
-**Expected Output:**
-- Validation accuracy, precision, recall per class
-- Confusion matrix
-- Sample predictions saved to `val_outputs_efficientnet/`
-
-**Performance:** Precision: 1.000 | Recall: 0.990 | F1: 0.995
-
----
-
-### 2. ResNet50 (Best Recall)
-
-**Location:** `models/classification/resnet50.pth` (90 MB - in repo)
-
-**Validation Script:**
-```bash
-python src/classification/validate_resnet50.py \
-    --model_path models/classification/resnet50.pth \
-    --data_root data
-```
-
-**Performance:** Precision: 0.953 | Recall: 1.000 (catches ALL scratches) | F1: 0.976
-
----
-
-### 3. UNeXt Multi-task (Classification + Segmentation)
+### 1. UNeXt Multi-task (Best Classification + Segmentation) ⭐
 
 **Location:** `models/unext_multitask/scratch_UNext_multitask_subset_2.pth` (5.6 MB - in repo)
 
@@ -162,21 +145,78 @@ python src/unext_multitask/inference.py \
 ```
 
 **Outputs:**
-- Classification predictions
-- Segmentation masks
+- Classification predictions (good/bad)
+- Segmentation masks (scratch localization)
 - Overlaid visualizations
 
 **Performance:** Precision: 1.000 | Recall: 0.971 | F1: 0.985
+
+**Why it's best for cls+seg:**
+- Perfect precision (no false positives)
+- Joint training: classification & segmentation help each other
+- Provides interpretable masks showing exactly where scratches are
+- Lightweight (5.6 MB) yet powerful
+
+---
+
+### 2. EfficientNetB0 (Best Classification Only) ⭐
+
+**Location:** `models/classification/efficientnet_b0.pth` (16 MB - in repo)
+
+**Validation Script:**
+```bash
+python src/classification/validate_efficientnet.py \
+    --model_path models/classification/efficientnet_b0.pth \
+    --data_root data
+```
+
+**Expected Output:**
+- Validation accuracy, precision, recall per class
+- Confusion matrix
+- Sample predictions saved to `val_outputs_efficientnet/`
+
+**Performance:** Precision: 1.000 | Recall: 0.990 | F1: 0.995
+
+**Why it's best for classification only:**
+- Perfect precision (zero false alarms)
+- Excellent recall (99% catch rate)
+- Fastest inference speed
+- Lightweight (16 MB) and production-ready
+- Best F1 score among classification models
+
+---
+
+### 3. ResNet50 (Alternative - Best Recall)
+
+**Location:** `models/classification/resnet50.pth` (90 MB - in repo)
+
+**Validation Script:**
+```bash
+python src/classification/validate_resnet50.py \
+    --model_path models/classification/resnet50.pth \
+    --data_root data
+```
+
+**Performance:** Precision: 0.953 | Recall: 1.000 (catches ALL scratches) | F1: 0.976
 
 ---
 
 ## 📊 Results Summary
 
+### Best Models by Category
+
+| Category | Model | Precision | Recall | F1 | Size | Location |
+|----------|-------|-----------|--------|-------|------|----------|
+| **Cls + Seg** | **UNeXt Multi-task** ⭐ | **1.000** | 0.971 | 0.985 | 5.6 MB | ✅ In repo |
+| **Cls Only** | **EfficientNetB0** ⭐ | **1.000** | **0.990** | **0.995** | 16 MB | ✅ In repo |
+
+### All Models
+
 | Model | Precision | Recall | F1 | Size | Location |
 |-------|-----------|--------|-------|------|----------|
+| **UNeXt Multi-task** | **1.000** | 0.971 | 0.985 | 5.6 MB | ✅ In repo |
 | **EfficientNetB0** | **1.000** | **0.990** | **0.995** | 16 MB | ✅ In repo |
 | ResNet50 | 0.953 | **1.000** | 0.976 | 90 MB | ✅ In repo |
-| UNeXt Multi-task | **1.000** | 0.971 | 0.985 | 5.6 MB | ✅ In repo |
 | UNeXt + GradCAM | ~1.000 | 0.971 | 0.985 | 5.6 MB | 📁 Google Drive |
 
 **All metrics:** Validation set (10% of data, balanced classes)
