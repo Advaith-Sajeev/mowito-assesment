@@ -1,7 +1,10 @@
 # Core ML/DL
 torch>=1.7.1
 torchvision>=0.8.2
+
+# UNeXt Requirements
 timm==0.3.2
+# mmcv-full==1.2.7  # Optional: Uncomment for full MMCV features (UNeXt fallback included)
 
 # Computer Vision
 opencv-python>=4.5.1
@@ -17,9 +20,6 @@ scikit-learn>=0.24.0
 matplotlib>=3.3.0
 seaborn>=0.11.0
 tqdm>=4.50.0
-
-# Optional: Medical imaging (for UNeXt)
-# mmcv-full==1.2.7  # Uncomment if using full MMCV features
 
 # YAML config
 PyYAML>=5.3.0
