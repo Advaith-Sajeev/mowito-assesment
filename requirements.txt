@@ -4,7 +4,11 @@ torchvision>=0.8.2
 
 # UNeXt Requirements
 timm==0.3.2
-# mmcv-full==1.2.7  # Optional: Uncomment for full MMCV features (UNeXt fallback included)
+addict==2.4.0
+mmcv-full==1.2.7  # For UNeXt - can be optional if using fallback
+scikit-image>=0.17.2
+scipy>=1.5.4
+tifffile>=2020.9.3
 
 # Computer Vision
 opencv-python>=4.5.1
@@ -23,3 +27,6 @@ tqdm>=4.50.0
 
 # YAML config
 PyYAML>=5.3.0
+
+# Optional Development Tools
+yapf>=0.31.0  # Code formatting (optional)
