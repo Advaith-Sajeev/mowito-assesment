@@ -3,7 +3,8 @@
 Deep learning models for detecting and segmenting scratches on text images.
 
 **GitHub:** https://github.com/Advaith-Sajeev/mowito-assesment  
-**Models (Google Drive):** [Download All Models](https://drive.google.com/drive/folders/1Rr81oR3aud6hXNRk950853TZat9u3arW?usp=drive_link)
+**Models (Google Drive):** [Download All Models](https://drive.google.com/drive/folders/1Rr81oR3aud6hXNRk950853TZat9u3arW?usp=drive_link)  
+**Validation Results:** [View Results & Visualizations](results/)
 
 ---
 
