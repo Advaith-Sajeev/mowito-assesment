@@ -167,6 +167,11 @@ python src/unext_multitask/val.py \
 - Provides interpretable masks showing exactly where scratches are
 - Lightweight (5.6 MB) yet powerful
 
+**📊 View Results:**
+- [Confusion Matrix](results/UNext_multitask/confusion_matrix_val.png)
+- [Validation Report (HTML)](results/UNext_multitask/val_report.html)
+- [Validation Panels (102 images)](results/UNext_multitask/val_panels/)
+
 ---
 
 ### 2. EfficientNetB0 (Best Classification Only) ⭐
@@ -194,6 +199,10 @@ python src/classification/validate_efficientnet.py \
 - Lightweight (16 MB) and production-ready
 - Best F1 score among classification models
 
+**📊 View Results:**
+- [Confusion Matrix](results/efficientnet/confusion_matrix_val_efficientnet.png)
+- [Misclassified Example](results/efficientnet/misclassified_val/false_negative_good/00003_09_08_2024_18_21_00.844774_classifier_input.png) (1 false negative)
+
 ---
 
 ### 3. ResNet50 (Alternative - Best Recall)
@@ -208,6 +217,10 @@ python src/classification/validate_resnet50.py \
 ```
 
 **Performance:** Precision: 0.953 | Recall: 1.000 (catches ALL scratches) | F1: 0.976
+
+**📊 View Results:**
+- [Confusion Matrix](results/resnet50/confusion_matrix_val.png)
+- [Misclassified Examples](results/resnet50/misclassified_val/false_positive_bad/) (5 false positives)
 
 ---
 
