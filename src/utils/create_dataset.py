@@ -56,7 +56,7 @@ def main():
     parser.add_argument(
         '--source',
         type=str,
-        default='anomaly_detection_test_data_synt',
+        default='anomaly_detection_test_data',
         help='Source data directory containing good/, bad/, and masks/ folders'
     )
     parser.add_argument(
