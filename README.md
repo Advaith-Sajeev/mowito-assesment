@@ -153,6 +153,20 @@ python src/unext_multitask/val.py \
 - `--model_path`: Direct path to model `.pth` file (required)
 - `--data_root`: Path to data directory containing `train/` and `val/` (default: `../../data`)
 - `--output_root`: Where to save validation outputs (default: `outputs`)
+- `--scratch_size_threshold`: Minimum scratch area to classify as bad (default: `0.0` = disabled)
+
+**Optional: Filter by Scratch Size**
+
+You can also control the minimum scratch size required to classify an image as "bad":
+
+```bash
+python src/unext_multitask/val.py \
+    --model_path models/unext_multitask/scratch_UNext_multitask_subset_2.pth \
+    --data_root data \
+    --scratch_size_threshold 0.01  # Ignore scratches < 1% of image area
+```
+
+This overrides classification to "good" if the predicted scratch covers less than the threshold percentage of the image.
 
 **Outputs:**
 - Classification predictions (good/bad)
