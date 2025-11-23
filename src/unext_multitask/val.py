@@ -276,6 +276,48 @@ def main():
 
             # ---- side-by-side (left: original, right: GT+Pred overlays) ----
             panel = np.concatenate([left_panel, right_panel], axis=1)  # (H, 2W, 3)
+            
+            # ---- add headers at top ----
+            H_panel, W_panel, _ = panel.shape
+            header_h = 50  # Height for header
+            
+            # Create header bar
+            header = np.ones((header_h, W_panel, 3), dtype='uint8') * 40  # Dark gray background
+            
+            # Add titles for each panel
+            cv2.putText(
+                header,
+                'Original Image',
+                (W_panel // 4 - 70, 20),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (255, 255, 255),  # white
+                2,
+                cv2.LINE_AA,
+            )
+            cv2.putText(
+                header,
+                'Segmentation Overlay',
+                (3 * W_panel // 4 - 100, 20),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (255, 255, 255),  # white
+                2,
+                cv2.LINE_AA,
+            )
+            
+            # Add color legend
+            legend_text = 'Blue=Ground Truth  |  Red=Predicted'
+            cv2.putText(
+                header,
+                legend_text,
+                (3 * W_panel // 4 - 120, 42),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.45,
+                (180, 180, 180),  # light gray
+                1,
+                cv2.LINE_AA,
+            )
 
             # ---- add bottom text with metrics ----
             text = (
@@ -283,14 +325,13 @@ def main():
                 f"gt_label={gt_label}  pred_label={pred_label_final}  "
                 f"prob_bad={cls_prob:.3f}  scratch_area={scratch_fraction:.3f}"
             )
-            H, W, _ = panel.shape
             bar_h = 26
 
             overlay = panel.copy()
             cv2.rectangle(
                 overlay,
-                (0, H - bar_h),
-                (W, H),
+                (0, H_panel - bar_h),
+                (W_panel, H_panel),
                 (0, 0, 0),
                 -1,
             )
@@ -300,13 +341,16 @@ def main():
             cv2.putText(
                 panel,
                 text,
-                (10, H - 8),
+                (10, H_panel - 8),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.5,
                 (0, 255, 255),  # yellow
                 1,
                 cv2.LINE_AA,
             )
+            
+            # ---- combine header + panel ----
+            panel = np.concatenate([header, panel], axis=0)  # Stack header on top
 
             # ---- save panel ----
             out_name = f"{img_id}_gt{gt_label}_pred{pred_label}.png"
