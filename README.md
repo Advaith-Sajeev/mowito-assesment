@@ -12,7 +12,9 @@ Deep learning models for detecting and segmenting scratches on text images.
 
 ### 1. Best Classification + Segmentation: UNeXt Multi-task ⭐
 
-**Performance:** Precision: 1.000 | Recall: 0.971 | F1: 0.985  
+**Performance:** 
+- **Classification:** Precision: 1.000 | Recall: 0.971 | F1: 0.985
+- **Segmentation:** IoU: 0.811 | Dice: 0.877  
 **Bonus:** Provides segmentation masks for scratch localization
 
 Perfect precision with excellent recall. Jointly trained for classification and segmentation, providing interpretable results with precise scratch masks.
@@ -171,10 +173,12 @@ This overrides classification to "good" if the predicted scratch covers less tha
 **Outputs:**
 - Classification predictions (good/bad)
 - Segmentation masks (scratch localization)
-- Evaluation metrics (precision, recall, IoU)
+- Evaluation metrics (precision, recall, IoU, Dice)
 - Overlaid visualizations
 
-**Performance:** Precision: 1.000 | Recall: 0.971 | F1: 0.985
+**Performance:** 
+- **Classification:** Precision: 1.000 | Recall: 0.971 | F1: 0.985
+- **Segmentation:** IoU: 0.811 | Dice: 0.877
 
 **Why it's best for cls+seg:**
 - Perfect precision (no false positives)
