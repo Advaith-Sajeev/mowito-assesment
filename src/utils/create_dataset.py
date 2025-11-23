@@ -62,7 +62,7 @@ def main():
     parser.add_argument(
         '--output',
         type=str,
-        default='data_synth',
+        default='data',
         help='Output directory for processed dataset'
     )
     parser.add_argument(
