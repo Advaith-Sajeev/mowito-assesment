@@ -1,0 +1,52 @@
+# Datasets (EXCLUDE)
+data/
+data_*/
+anomaly_detection_test_data/
+**/data/
+**/data_*/
+synthetic_bad/
+inputs/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+
+# Training outputs (optional)
+gradcam_outputs/
+val_outputs_*/
+scratch_gan_ckpt/
+scratch_pix2pix_ckpt/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
