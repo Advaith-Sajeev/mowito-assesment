@@ -56,10 +56,8 @@ See [Dataset Setup](#-dataset-setup) section below.
 
 **Option 1: UNeXt Multi-task (Classification + Segmentation) ⭐**
 ```bash
-python src/unext_multitask/inference.py \
-    --model_path models/unext_multitask/scratch_UNext_multitask_subset_2.pth \
-    --input_dir data/val \
-    --output_dir outputs/unext_multitask
+cd src/unext_multitask
+python val.py --name scratch_UNext_multitask_subset_2
 ```
 
 **Option 2: EfficientNetB0 (Classification Only) ⭐**
@@ -148,17 +146,10 @@ cd src/unext_multitask
 python val.py --name scratch_UNext_multitask_subset_2
 ```
 
-**Or run inference:**
-```bash
-python src/unext_multitask/inference.py \
-    --model_path models/unext_multitask/scratch_UNext_multitask_subset_2.pth \
-    --input_dir data/val \
-    --output_dir outputs/unext_multitask
-```
-
 **Outputs:**
 - Classification predictions (good/bad)
 - Segmentation masks (scratch localization)
+- Evaluation metrics (precision, recall, IoU)
 - Overlaid visualizations
 
 **Performance:** Precision: 1.000 | Recall: 0.971 | F1: 0.985
